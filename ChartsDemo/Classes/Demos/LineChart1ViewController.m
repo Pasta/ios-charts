@@ -37,6 +37,7 @@
                      @{@"key": @"toggleFilled", @"label": @"Toggle Filled"},
                      @{@"key": @"toggleCircles", @"label": @"Toggle Circles"},
                      @{@"key": @"toggleCubic", @"label": @"Toggle Cubic"},
+                     @{@"key": @"toggleStepped", @"label": @"Toggle Stepped"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
@@ -82,8 +83,8 @@
     [leftAxis removeAllLimitLines];
     [leftAxis addLimitLine:ll1];
     [leftAxis addLimitLine:ll2];
-    leftAxis.customAxisMax = 220.0;
-    leftAxis.customAxisMin = -50.0;
+    leftAxis.axisMaxValue = 220.0;
+    leftAxis.axisMinValue = -50.0;
     leftAxis.gridLineDashLengths = @[@5.f, @5.f];
     leftAxis.drawZeroLineEnabled = NO;
     leftAxis.drawLimitLinesBehindDataEnabled = YES;
@@ -164,6 +165,8 @@
     set1.fill = [ChartFill fillWithLinearGradient:gradient angle:90.f];
     set1.drawFilledEnabled = YES;
     
+    CGGradientRelease(gradient);
+    
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
     
@@ -205,6 +208,16 @@
         
         [_chartView setNeedsDisplay];
         return;
+    }
+
+    if ([key isEqualToString:@"toggleStepped"])
+    {
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        {
+            set.drawSteppedEnabled = !set.isDrawSteppedEnabled;
+        }
+
+        [_chartView setNeedsDisplay];
     }
     
     [super handleOption:key forChartView:_chartView];

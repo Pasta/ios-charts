@@ -37,6 +37,7 @@
                      @{@"key": @"toggleFilled", @"label": @"Toggle Filled"},
                      @{@"key": @"toggleCircles", @"label": @"Toggle Circles"},
                      @{@"key": @"toggleCubic", @"label": @"Toggle Cubic"},
+                     @{@"key": @"toggleStepped", @"label": @"Toggle Stepped"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
@@ -73,16 +74,18 @@
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelTextColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
-    leftAxis.customAxisMax = 200.0;
-    leftAxis.customAxisMin = 0.0;
+    leftAxis.axisMaxValue = 200.0;
+    leftAxis.axisMinValue = 0.0;
     leftAxis.drawGridLinesEnabled = YES;
     leftAxis.drawZeroLineEnabled = NO;
+    leftAxis.granularityEnabled = YES;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.labelTextColor = UIColor.redColor;
-    rightAxis.customAxisMax = 900.0;
-    rightAxis.customAxisMin = -200.0;
+    rightAxis.axisMaxValue = 900.0;
+    rightAxis.axisMinValue = -200.0;
     rightAxis.drawGridLinesEnabled = NO;
+    rightAxis.granularityEnabled = NO;
     
     _sliderX.value = 19.0;
     _sliderY.value = 30.0;
@@ -201,6 +204,16 @@
         
         [_chartView setNeedsDisplay];
         return;
+    }
+
+    if ([key isEqualToString:@"toggleStepped"])
+    {
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        {
+            set.drawSteppedEnabled = !set.isDrawSteppedEnabled;
+        }
+
+        [_chartView setNeedsDisplay];
     }
     
     [super handleOption:key forChartView:_chartView];

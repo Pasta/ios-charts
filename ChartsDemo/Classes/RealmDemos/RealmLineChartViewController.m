@@ -37,6 +37,7 @@
                      @{@"key": @"toggleFilled", @"label": @"Toggle Filled"},
                      @{@"key": @"toggleCircles", @"label": @"Toggle Circles"},
                      @{@"key": @"toggleCubic", @"label": @"Toggle Cubic"},
+                     @{@"key": @"toggleStepped", @"label": @"Toggle Stepped"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
@@ -50,8 +51,8 @@
     
     [self setupBarLineChartView:_chartView];
     
-    _chartView.leftAxis.axisMaximum = 150.f;
-    _chartView.leftAxis.axisMinimum = 0.f;
+    _chartView.leftAxis.axisMaxValue = 150.f;
+    _chartView.leftAxis.axisMinValue = 0.f;
     _chartView.leftAxis.drawGridLinesEnabled = NO;
     _chartView.xAxis.drawGridLinesEnabled = NO;
     
@@ -123,6 +124,17 @@
             set.drawCubicEnabled = !set.isDrawCubicEnabled;
         }
         
+        [_chartView setNeedsDisplay];
+        return;
+    }
+    
+    if ([key isEqualToString:@"toggleStepped"])
+    {
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        {
+            set.drawSteppedEnabled = !set.isDrawSteppedEnabled;
+        }
+
         [_chartView setNeedsDisplay];
         return;
     }
