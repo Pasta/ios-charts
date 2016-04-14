@@ -425,7 +425,7 @@ public class BarChartRenderer: ChartDataRendererBase
                                     break
                                 }
                                 
-                                if (!viewPortHandler.isInBoundsY(y) || !viewPortHandler.isInBoundsLeft(x))
+                                if (!viewPortHandler.isInBoundsY(y) || !viewPortHandler.isInBoundsLeft(x)) || vals[k] == 0
                                 {
                                     continue
                                 }
